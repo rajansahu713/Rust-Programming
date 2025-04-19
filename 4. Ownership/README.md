@@ -18,3 +18,14 @@ Why is ownership important?
 - It allows for efficient memory management without runtime overhead.
 - It enables safe concurrency by ensuring that data is not shared between threads without proper synchronization.
 - It provides a clear and explicit way to manage resources, making the code easier to understand and maintain.
+
+## Ownership Imporatnce in Rust
+
+|Type   |	Is it Copy? |	Can ownership be transferred?   |	Explanation |
+|----------------|----------------|-------------------------------|------------------|
+|Integer (i32)|	✅ Yes  |	❌ No (it copies instead)   |	Integers implement the Copy trait, so assigning or passing them just copies the value.
+|String | ❌ No |	✅ Yes |	String is heap-allocated and does not implement Copy, so ownership moves on assignment or passing.
+|Array  ([i32; 3])  |	✅ Yes |(if all elements are Copy and size is fixed)	❌ No (it copies)   |	Fixed-size arrays of Copy types (like [i32; 3]) are themselves Copy. So assigning or passing copies them.
+|Vector (Vec<i32>)  |	❌ No |	✅ Yes	|Vec is heap-allocated and does not implement Copy, so ownership transfers on assignment.
+|Struct |	❌ Depends |	✅ Usually Yes  |	If all fields are Copy and #[derive(Copy)] is added, it can be Copy. Otherwise, ownership is transferred.
+|Enum   |	❌ Depends  |	✅ Usually Yes |	Simple enums (like enum MyEnum { A, B }) can be Copy. If any variant contains non-Copy data (like String), it's not Copy.
